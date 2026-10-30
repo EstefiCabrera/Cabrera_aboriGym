@@ -4,10 +4,14 @@
  */
 package cabrera_aborigym;
 
+import java.time.LocalDate;
+import java.time.Month;
 import modelo.Entrenador;
+import modelo.Pase;
 import modelo.Socio;
 import modelo.miConexion;
 import persistencia.EntrenadorData;
+import persistencia.PaseData;
 import persistencia.SocioData;
 
 
@@ -32,18 +36,21 @@ public class Cabrera_aboriGym {
         Entrenador ale = new Entrenador("20654789", "Alejandro", "Gutierrez", "Musculación", true);
         EntrenadorData ent = new EntrenadorData(conexion);
         //ent.guardarEntrenador(pablo);
-        //soc.borrarSocio(2);
+        //soc.bajaSocio(2);
         //soc.altaSocio(2);
         //juan.setIdSocio(1);
         //juan.setTelefono("2664000000");
         //soc.modificarSocio(juan);
         //ent.guardarEntrenador(ale);
-        //ent.borrarEntrenador(3);
+        //ent.bajantrenador(3);
         //ent.altaEntrenador(3);
-        ale.setIdEntrenador(3);
-        ale.setNombre("Mario Alejandro");
-        ent.modificarSocio(ale);
-    }
-    
-    
+        //ale.setIdEntrenador(3);
+        //ale.setNombre("Mario Alejandro");
+        //ent.modificarSocio(ale);
+        
+        PaseData pd = new PaseData(conexion);
+        Pase pase1 = new Pase(pedro, 12, LocalDate.now(), LocalDate.of(2026, 11, 30), 30.000, true);
+        pd.guardarPase(pase1);
+        
+    }    
 }

@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import modelo.miConexion;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Socio;
 
@@ -41,21 +43,21 @@ public class SocioData {
             ResultSet rs = ps.getGeneratedKeys(); 
             if(rs.next()){
                 s.setIdSocio(1);
+                JOptionPane.showMessageDialog(null, "Socio guardado exitosamente");
             }else{
-                System.out.println("No se pudo tener ID");
+                JOptionPane.showMessageDialog(null,"No se pudo guardar socio");
             }
-            ps.close();
-            System.out.println("Guardado!");
+            ps.close();;
         } catch (SQLException ex) {
-            System.out.println("No se puede insertar");    
+           JOptionPane.showMessageDialog(null,"Error al acceder a la tabla socio");    
         }
     }
     
-    public void borrarSocio (int id){  //bajaLogica
+    public void bajaSocio (int idSocio){  
         String query = "UPDATE socio SET estado =0 WHERE idSocio=?";  
         try {
             PreparedStatement ps = con.prepareStatement(query); 
-            ps.setInt(1, id);
+            ps.setInt(1, idSocio);
             int exito = ps.executeUpdate();    
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Socio dado de baja");
@@ -68,11 +70,11 @@ public class SocioData {
            }
     }
     
-    public void altaSocio (int id){  //bajaLogica
+    public void altaSocio (int idSocio){  
         String query = "UPDATE socio SET estado =1 WHERE idSocio=?";  
         try {
             PreparedStatement ps = con.prepareStatement(query); 
-            ps.setInt(1, id);
+            ps.setInt(1, idSocio);
             int exito = ps.executeUpdate();    
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Socio dado de alta");
@@ -84,8 +86,6 @@ public class SocioData {
                JOptionPane.showMessageDialog(null, "Error al acceder a la tabla socio");
            }
     }
-    
-    
     
     public void modificarSocio (Socio s){
         String query = "UPDATE socio SET dni=?, nombre =?, apellido =?, edad=?, correo=?, telefono=?, estado=1 WHERE idSocio =?";  
@@ -103,13 +103,91 @@ public class SocioData {
              if(exito==1){
                     JOptionPane.showMessageDialog(null, "Socio modificado");
              }else{
-                JOptionPane.showMessageDialog(null, "No se encuentra el socio");
+                    JOptionPane.showMessageDialog(null, "No se encuentra el socio");
             }
              ps.close();  
         } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, "Error al acceder a la tabla socio");
                 }
 }
-
     
-}
+    public Socio buscarSocio(int idSocio){
+        Socio s = null;
+        
+        String sql = "SELECT * FROM socio WHERE idSocio=?";
+        
+        try{
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                s= new Socio();
+                s.setIdSocio(rs.getInt("idSocio"));
+                s.setDni(rs.getString("dni"));
+                s.setNombre(rs.getString("nombre"));
+                s.setApellido(rs.getString("apellido"));
+                s.setEdad(rs.getInt("edad"));
+                s.setCorreo(rs.getString("correo"));
+                s.setTelefono(rs.getString("telefono"));
+                s.setEstado(rs.getBoolean("estado"));
+            }else{
+                JOptionPane.showMessageDialog(null,"No existe un socio con ese ID");
+            }
+            ps.close();
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla socio: "+ e.getMessage());
+        }
+        return s;
+    }
+    
+    public void eliminarSocio(int idSocio){
+        String sql = "DELET FROM socio WHERE idSocio = ?";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            int exito = ps.executeUpdate();
+            if(exito == 1) {
+                JOptionPane.showMessageDialog(null, "Socio eliminado correctamente");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se ha encontrado un socio con dicho id");
+            }
+            ps.close();        
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla socio"+ ex.getMessage());
+        }
+    }  
+     
+    public List <Socio> listarSocioPorClase(int idClase){     
+        String sql = "SELECT s.idSocio s.dni, s.nombre, s.apellido, s.edad, s.correo, s.telefono, s.estado "
+                + "FROM asistencia a "
+                + "INNER JOIN socio s ON (a.idSocio = s.idSocio " 
+                + "WHERE s.idClase = ? AND s.estado=1";
+        ArrayList<Socio> socios = new ArrayList<>();
+        
+        try{
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idClase);
+            ResultSet rs= ps.executeQuery();
+            while(rs.next()){
+                Socio s = new Socio();
+                s.setIdSocio(rs.getInt("idSocio"));
+                s.setDni(rs.getString("dni"));
+                s.setNombre(rs.getString("nombre"));
+                s.setApellido(rs.getString("apellido"));
+                s.setEdad(rs.getInt("edad"));
+                s.setCorreo(rs.getString("correo"));
+                s.setTelefono(rs.getString("telefono"));
+                s.setEstado(rs.getBoolean("estado"));
+                socios.add(s);
+            }
+            ps.close();
+        }catch (SQLException e){
+                JOptionPane.showMessageDialog(null, "Error al listar socios por clase: "+ e.getMessage());            
+    }
+        return socios;
+    }
+    
+    
+}   
