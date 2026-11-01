@@ -42,7 +42,7 @@ public class SocioData {
             
             ResultSet rs = ps.getGeneratedKeys(); 
             if(rs.next()){
-                s.setIdSocio(1);
+                s.setIdSocio(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Socio guardado exitosamente");
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudo guardar socio");
@@ -111,14 +111,14 @@ public class SocioData {
                 }
 }
     
-    public Socio buscarSocio(int idSocio){
+    public Socio buscarSocio(String dni){
         Socio s = null;
         
-        String sql = "SELECT * FROM socio WHERE idSocio=?";
+        String sql = "SELECT * FROM socio WHERE dni=?";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
-            ps.setInt(1, idSocio);
+            ps.setString(1, dni);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
@@ -132,7 +132,7 @@ public class SocioData {
                 s.setTelefono(rs.getString("telefono"));
                 s.setEstado(rs.getBoolean("estado"));
             }else{
-                JOptionPane.showMessageDialog(null,"No existe un socio con ese ID");
+                JOptionPane.showMessageDialog(null,"No existe un socio con ese DNI");
             }
             ps.close();
         }catch (SQLException e){
@@ -189,5 +189,29 @@ public class SocioData {
         return socios;
     }
     
-    
+    public List<Socio> listarSocios() {
+        ArrayList<Socio> socios = new ArrayList<>();
+        String sql = "SELECT * FROM socio WHERE estado = 1;";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Socio s = new Socio();
+                s.setIdSocio(rs.getInt("idSocio"));
+                s.setDni(rs.getString("dni"));
+                s.setNombre(rs.getString("nombre"));
+                s.setApellido(rs.getString("apellido"));
+                s.setEdad(rs.getInt("edad"));
+                s.setCorreo(rs.getString("correo"));
+                s.setTelefono(rs.getString("telefono"));
+                s.setEstado(rs.getBoolean("estado"));
+                socios.add(s);
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al listar socios generales: " + e.getMessage());
+        }
+        return socios;
+    }
 }   

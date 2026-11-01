@@ -126,14 +126,14 @@ public class EntrenadorData {
         }
     }  
       
-    public Entrenador buscarEntrenador(int idEntrenador){
+    public Entrenador buscarEntrenador(String dni){
         Entrenador e = null;
         
         String sql = "SELECT * FROM entrenador WHERE idEntrenador=?";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
-            ps.setInt(1, idEntrenador);
+            ps.setString(1, dni);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
@@ -145,7 +145,7 @@ public class EntrenadorData {
                 e.setEspecialidad(rs.getString("especialidad"));
                 e.setEstado(rs.getBoolean("estado"));
             }else{
-                JOptionPane.showMessageDialog(null,"No existe un entrenador con ese ID");
+                JOptionPane.showMessageDialog(null,"No existe un entrenador con ese DNI");
             }
             ps.close();
         }catch (SQLException ex){
@@ -177,5 +177,32 @@ public class EntrenadorData {
                 JOptionPane.showMessageDialog(null, "Error al listar especialidad: "+ ex.getMessage());            
     }
         return entrenadores;
+    }
+    
+    public List<Entrenador> listarEntrenadores() {
+        List<Entrenador> lista = new ArrayList<>();
+
+        String sql = "SELECT * FROM entrenador WHERE estado = 1;"; 
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Entrenador e = new Entrenador();
+                e.setIdEntrenador(rs.getInt("idEntrenador"));
+                e.setDni(rs.getString("dni"));
+                e.setNombre(rs.getString("nombre"));
+                e.setApellido(rs.getString("apellido"));
+                e.setEspecialidad(rs.getString("especialidad"));
+                e.setEstado(rs.getBoolean("estado"));
+
+                lista.add(e);
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar entrenadores: " + ex.getMessage());
+        }
+        return lista;
     }
 }

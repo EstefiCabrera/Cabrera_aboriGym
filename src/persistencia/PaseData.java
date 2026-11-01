@@ -83,21 +83,21 @@ public class PaseData {
            }
     }
         
-    public Pase buscarPasePorSocio (int idSocio){
+    public Pase buscarPasePorSocio (String dni){
         Pase p = null;
         
         String sql = "SELECT * FROM pase WHERE idSocio=? AND estado = 1";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
-            ps.setInt(1, idSocio);
+            ps.setString(1, dni);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
                 p= new Pase();
                 p.setIdPase(rs.getInt("idPase"));
                 
-                Socio s = socioData.buscarSocio(idSocio);
+                Socio s = socioData.buscarSocio(dni);
                 p.setSocio(s);
                 
                 p.setCantidadEntradas(rs.getInt("cantidadEntradas"));
@@ -106,7 +106,7 @@ public class PaseData {
                 p.setCosto(rs.getDouble("costo"));
                 p.setEstado(rs.getBoolean("estado"));
             }else{
-                JOptionPane.showMessageDialog(null,"No existe un Pase con ese ID");
+                JOptionPane.showMessageDialog(null,"No existe un Pase con ese DNI");
             }
             ps.close();
         }catch (SQLException e){
