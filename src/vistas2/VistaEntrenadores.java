@@ -54,6 +54,11 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnBaja = new javax.swing.JButton();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel1.setText("FORMULARIO ENTRENADORES");
 

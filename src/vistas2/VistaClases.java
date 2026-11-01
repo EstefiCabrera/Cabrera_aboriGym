@@ -62,6 +62,11 @@ public class VistaClases extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         txtCapacidad = new javax.swing.JTextField();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel1.setText("CLASES");
 
