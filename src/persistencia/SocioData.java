@@ -111,7 +111,7 @@ public class SocioData {
                 }
 }
     
-    public Socio buscarSocio(String dni){
+    public Socio buscarSocioPorDni (String dni){
         Socio s = null;
         
         String sql = "SELECT * FROM socio WHERE dni=?";
@@ -213,5 +213,35 @@ public class SocioData {
             JOptionPane.showMessageDialog(null, "Error al listar socios generales: " + e.getMessage());
         }
         return socios;
+    }
+    
+    public Socio buscarSocioPorId (int idSocio){
+        Socio s = null;
+        
+        String sql = "SELECT * FROM socio WHERE idSocio=?";
+        
+        try{
+            PreparedStatement ps= con.prepareStatement(sql);
+            ps.setInt(1, idSocio);
+            ResultSet rs = ps.executeQuery();
+            
+            if(rs.next()){
+                s= new Socio();
+                s.setIdSocio(rs.getInt("idSocio"));
+                s.setDni(rs.getString("dni"));
+                s.setNombre(rs.getString("nombre"));
+                s.setApellido(rs.getString("apellido"));
+                s.setEdad(rs.getInt("edad"));
+                s.setCorreo(rs.getString("correo"));
+                s.setTelefono(rs.getString("telefono"));
+                s.setEstado(rs.getBoolean("estado"));
+            }else{
+                JOptionPane.showMessageDialog(null,"No existe un socio con ese ID");
+            }
+            ps.close();
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla socio: "+ e.getMessage());
+        }
+        return s;
     }
 }   

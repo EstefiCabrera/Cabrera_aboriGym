@@ -66,7 +66,7 @@ public class ventana extends javax.swing.JFrame {
 
         jMenu1.setText("Socios");
 
-        jMenuSocios.setText("Socio");
+        jMenuSocios.setText("Formulario Socio");
         jMenuSocios.addActionListener(this::jMenuSociosActionPerformed);
         jMenu1.add(jMenuSocios);
 

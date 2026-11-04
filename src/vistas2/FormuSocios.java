@@ -259,7 +259,7 @@ public class FormuSocios extends javax.swing.JInternalFrame {
         }
         try{
             String dniBuscado = txtDni.getText();
-            Socio sb = socioData.buscarSocio(dniBuscado);
+            Socio sb = socioData.buscarSocioPorDni(dniBuscado);
             
             if(sb !=null){
                 txtIdSocio.setText(String.valueOf(sb.getIdSocio()));
