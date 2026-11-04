@@ -25,16 +25,16 @@ public class Cabrera_aboriGym {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Socio juan = new Socio("34899874", "Juan", "Sosa", 20, "juan@gmail.com", "2664305896", true);
-        miConexion conexion = new miConexion();
-        SocioData soc = new SocioData(conexion);
-        Socio pedro = new Socio("23456789", "Pedro", "Gutierrez", 19, "pedro@gmail.com", "2665987894", true);
-        //soc.guardarSocio(pedro);
+//        Socio juan = new Socio("34899874", "Juan", "Sosa", 20, "juan@gmail.com", "2664305896", true);
+//        miConexion conexion = new miConexion();
+//        SocioData soc = new SocioData(conexion);
+//        Socio pedro = new Socio("23456789", "Pedro", "Gutierrez", 19, "pedro@gmail.com", "2665987894", true);
+//        //soc.guardarSocio(pedro);
         //soc.guardarSocio(juan);
         
-        Entrenador pablo = new Entrenador("30456987", "Pablo", "Perez", "Crossfit", true);
-        Entrenador ale = new Entrenador("20654789", "Alejandro", "Gutierrez", "Musculación", true);
-        EntrenadorData ent = new EntrenadorData(conexion);
+        //Entrenador pablo = new Entrenador("30456987", "Pablo", "Perez", "Crossfit", true);
+        //Entrenador ale = new Entrenador("20654789", "Alejandro", "Gutierrez", "Musculación", true);
+        //EntrenadorData ent = new EntrenadorData(conexion);
         //ent.guardarEntrenador(pablo);
         //soc.bajaSocio(2);
         //soc.altaSocio(2);
@@ -48,9 +48,9 @@ public class Cabrera_aboriGym {
         //ale.setNombre("Mario Alejandro");
         //ent.modificarSocio(ale);
         
-        PaseData pd = new PaseData(conexion);
-        Pase pase1 = new Pase(pedro, 12, LocalDate.now(), LocalDate.of(2026, 11, 30), 30.000, true);
-        pd.guardarPase(pase1);
+        //PaseData pd = new PaseData(conexion);
+        //Pase pase1 = new Pase(pedro, 12, LocalDate.now(), LocalDate.of(2026, 11, 30), 30.000, true);
+        //pd.guardarPase(pase1);
         
     }    
 }

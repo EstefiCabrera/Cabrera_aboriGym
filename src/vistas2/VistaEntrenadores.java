@@ -23,6 +23,20 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         initComponents();
         conexion = new miConexion();
         entrenadorData = new EntrenadorData(conexion);
+        
+        txtIdEntrenador.setEnabled(true);
+        txtDni.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtApellido.setEnabled(false);
+        txtEspecialidad.setEnabled(false);
+        chekEstado.setEnabled(false);
+        
+        btnGuardar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnBaja.setEnabled(false);
+        btnBuscar.setEnabled(true);
+        btnNuevo.setEnabled(true);   
+        
         limpiarCampos();
     }
 
@@ -37,7 +51,7 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtIdEntrenador = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtDni = new javax.swing.JTextField();
@@ -65,7 +79,8 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel2.setText("ID entrenador:");
 
-        txtId.addActionListener(this::txtIdActionPerformed);
+        txtIdEntrenador.setColumns(5);
+        txtIdEntrenador.addActionListener(this::txtIdEntrenadorActionPerformed);
 
         btnBuscar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -119,86 +134,85 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGuardar)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(69, 69, 69)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chekEstado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(105, 105, 105)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(txtEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(btnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnBaja)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(118, 118, 118))
+                                .addComponent(jLabel4)
+                                .addGap(14, 14, 14)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(chekEstado))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txtIdEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(btnGuardar)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnModificar)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnBaja))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel1)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3)
-                                .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chekEstado)
-                            .addComponent(jLabel9))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIdEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel5)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                    .addComponent(txtDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9))
+                    .addComponent(chekEstado))
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtEspecialidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -210,9 +224,9 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
+    private void txtIdEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdEntrenadorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
+    }//GEN-LAST:event_txtIdEntrenadorActionPerformed
 
     private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
         // TODO add your handling code here:
@@ -235,7 +249,7 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_chekEstadoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        if(txtId.getText().isEmpty()){
+        if(txtIdEntrenador.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Por favor buscar un entrenador para modificarlo");
             return;
         }        
@@ -245,7 +259,7 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         }
         try{
             Entrenador em = new Entrenador();
-            em.setIdEntrenador(Integer.parseInt(txtId.getText()));
+            em.setIdEntrenador(Integer.parseInt(txtIdEntrenador.getText()));
             em.setDni(txtDni.getText());
             em.setNombre(txtNombre.getText());
             em.setApellido(txtApellido.getText());
@@ -264,24 +278,54 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
+        
+        txtDni.setEnabled(true);
+        txtNombre.setEnabled(true);
+        txtApellido.setEnabled(true);
+        txtEspecialidad.setEnabled(true);
+        chekEstado.setEnabled(true);
+        chekEstado.setSelected(true);
+        txtIdEntrenador.setEnabled(false);
+        txtIdEntrenador.setText("");
+        
+        btnGuardar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnBaja.setEnabled(false);
+        
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-         if(txtDni.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un DNI");
+        if(txtIdEntrenador.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un ID");
         return;
         }
-        try{
-            String dniBuscado = txtDni.getText();
-            Entrenador eb = entrenadorData.buscarEntrenador(dniBuscado);
+        try{ 
+            int idBuscado = Integer.parseInt(txtIdEntrenador.getText().trim());
+            Entrenador eb = entrenadorData.buscarEntrenador(idBuscado);
             
             if(eb !=null){
-                txtId.setText(String.valueOf(eb.getIdEntrenador()));              
+                txtIdEntrenador.setText(String.valueOf(eb.getIdEntrenador()));   
+                txtDni.setText(eb.getDni());
                 txtNombre.setText(eb.getNombre());
                 txtApellido.setText(eb.getApellido());
                 txtEspecialidad.setText(eb.getEspecialidad());
                 chekEstado.setSelected(eb.isEstado());
-            }
+                
+                txtDni.setEnabled(true);
+                txtNombre.setEnabled(true);
+                txtApellido.setEnabled(true);
+                txtEspecialidad.setEnabled(true);
+                chekEstado.setEnabled(false);
+        
+                txtIdEntrenador.setEnabled(false);
+                            
+                btnGuardar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                btnBaja.setEnabled(true);
+            }else{
+                limpiarCampos();
+              
+            } 
          }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error al procesar la búsqueda: "+e.getMessage());
         }
@@ -301,9 +345,23 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
             ne.setEstado(chekEstado.isSelected());
             
             EntrenadorData sd = new EntrenadorData(conexion);
-            sd.guardarEntrenador(ne);
-            
-            limpiarCampos();
+            boolean guardadoExitoso = sd.guardarEntrenador(ne);
+                if(guardadoExitoso){
+                   limpiarCampos();
+                   txtIdEntrenador.setEnabled(true);
+                   txtDni.setEnabled(false);
+                   txtNombre.setEnabled(false);
+                   txtApellido.setEnabled(false);
+                   txtEspecialidad.setEnabled(false);
+                   chekEstado.setEnabled(false);
+
+                   btnGuardar.setEnabled(false);
+                   btnModificar.setEnabled(false);
+                   btnBaja.setEnabled(false); 
+                   btnBuscar.setEnabled(true);
+                   btnNuevo.setEnabled(true);
+                   btnNuevo.setText("Nuevo");
+                }          
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "La edad debe ser un número entero");           
         }catch (Exception e){
@@ -312,26 +370,21 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
-        if(txtId.getText().isEmpty()){
+        if(txtIdEntrenador.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Por favor buscar un entrenador para modificarlo");
             return;
-        }        
-        if(txtDni.getText().isEmpty()|| txtNombre.getText().isEmpty()||txtApellido.getText().isEmpty()){
-            JOptionPane.showMessageDialog(this, "Por favor complete Dni, nombre y apellido");
-        return;
-        }
+        }             
         try{
-            Entrenador em = new Entrenador();
-            em.setIdEntrenador(Integer.parseInt(txtId.getText()));
-            em.setDni(txtDni.getText());
-            em.setNombre(txtNombre.getText());
-            em.setApellido(txtApellido.getText());
-            em.setEspecialidad(txtEspecialidad.getText());
-
-            EntrenadorData sd = new EntrenadorData(conexion);
-            sd.modificarEntrenador(em);
+            int idEntrenador = Integer.parseInt(txtIdEntrenador.getText());
             
+            int respuesta = JOptionPane.showConfirmDialog(null, 
+                    "¿Está seguro de que desea dar de baja a este socio?", 
+                    "Confirmar Baja Lógica", 
+                    JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                entrenadorData.bajaEntrenador(idEntrenador);           
             limpiarCampos();
+            }
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "La edad debe ser un número entero");           
         }catch (Exception e){
@@ -357,16 +410,16 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtDni;
     private javax.swing.JTextField txtEspecialidad;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdEntrenador;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
     private void limpiarCampos() {
-        txtId.setText("");
+        txtIdEntrenador.setText("");
         txtDni.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtEspecialidad.setText("");
-        chekEstado.setSelected(true);
+        chekEstado.setSelected(false);
     }
 }

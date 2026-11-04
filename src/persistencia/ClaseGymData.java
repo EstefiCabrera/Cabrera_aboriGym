@@ -27,6 +27,7 @@ public class ClaseGymData {
     
     public ClaseGymData(miConexion conexion){
         this.con = conexion.buscarConexion();
+        this.entrenadorData = entrenadorData;
     }
     
     public void guardarClaseGym (ClaseGym c){    
@@ -55,13 +56,13 @@ public class ClaseGymData {
     }
     
     public void modificarClaseGym (ClaseGym c){
-        String sql = "UPDATE claseGym SET disciplina=?, idEntrenador=?, horario =?, capacidad=?, estado=1 WHERE idClase =?";  
+        String sql = "UPDATE claseGym SET disciplina=?, idEntrenador=?, horario =?, capacidad=?, estado=? WHERE idClase =? AND estado=1";  
         try {
              PreparedStatement ps = con.prepareStatement(sql); 
              ps.setString(1, c.getDisciplina());
              ps.setInt(2, c.getEntrenador().getIdEntrenador());
              ps.setTime(3, Time.valueOf(c.getHorario()));
-             ps.setInt(4, c.getCapacidad());
+             ps.setInt(4, c.getCapacidad());;
              ps.setBoolean(5, c.isEstado());
              ps.setInt(5, c.getIdClase());
              
@@ -93,13 +94,14 @@ public class ClaseGymData {
                 c.setDisciplina(rs.getString("disciplina"));
                 c.setHorario(rs.getTime("horario").toLocalTime());
                 c.setCapacidad(rs.getInt("capacidad"));
-                c.setEstado(rs.getBoolean("estado"));
+                c.setEstado(rs.getBoolean("estado"));             
                 
-                String dni = rs.getString("dni");
-                Entrenador e = entrenadorData.buscarEntrenador(dni);
+                int idEntrenador = rs.getInt("idEntrenador");
+                Entrenador e = entrenadorData.buscarEntrenador(idEntrenador);
                 c.setEntrenador(e);
-                lista.add(c);
-                
+                lista.add(c);              
+            }
+            if(lista.isEmpty()){
                 JOptionPane.showMessageDialog(null,"No existe un clase con esa disciplina");
             }
             ps.close();
@@ -144,7 +146,7 @@ public class ClaseGymData {
     }
     
     public void eliminarClase (int idClase){
-        String sql = "DELET FROM claseGym WHERE idClase = ?";
+        String sql = "DELETE FROM claseGym WHERE idClase = ?";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -161,14 +163,14 @@ public class ClaseGymData {
         }
     }  
     
-    public ClaseGym buscarClase(String disciplina){
+    public ClaseGym buscarClase(int idClase){
         ClaseGym c = null;
         
         String sql = "SELECT * FROM classeGym WHERE idClase=?";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
-            ps.setString(1, disciplina);
+            ps.setInt(1, idClase);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
@@ -179,8 +181,8 @@ public class ClaseGymData {
                 c.setCapacidad(rs.getInt("capacidad"));
                 c.setEstado(rs.getBoolean("estado"));
                 
-                String dni = rs.getString("dni");
-                Entrenador e = entrenadorData.buscarEntrenador(dni);
+                int idEntrenador = rs.getInt("idEntrenador");
+                Entrenador e = entrenadorData.buscarEntrenador(idEntrenador);
                 c.setEntrenador(e);
             }else{
                 JOptionPane.showMessageDialog(null,"No existe una clase con esa disciplina");
@@ -194,19 +196,18 @@ public class ClaseGymData {
     
     public boolean comprobarSuperposicion(int idEntrenador, int hora) {
         boolean ocupado = false;
-        String sql = "SELECT COUNT(*) FROM claseGym WHERE id_entrenador = ? AND HOUR(horario) = ? AND estado = 1;";
+        String sql = "SELECT COUNT(*) FROM claseGym WHERE idEntrenador =? AND HOUR(horario) =? AND estado =1;";
 
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idEntrenador);
             ps.setInt(2, hora);
             ResultSet rs = ps.executeQuery();
-
-            if (rs.next() && rs.getInt(1) > 0) {
-                ocupado = true;
-            }
+                if (rs.next() && rs.getInt(1) > 0) {
+                    ocupado = true;
+                }
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al validar horario: " + ex.getMessage());
         }
         return ocupado;
-}
+    }
 }

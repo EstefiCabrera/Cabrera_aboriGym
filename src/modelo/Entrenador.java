@@ -86,6 +86,6 @@ public class Entrenador {
 
     @Override
     public String toString() {
-        return apellido +", "+ nombre+". " + "DNI: "+dni +".";
+        return "ID: "+ idEntrenador + apellido +", "+ nombre+". " + "DNI: "+dni +".";
     }
 }

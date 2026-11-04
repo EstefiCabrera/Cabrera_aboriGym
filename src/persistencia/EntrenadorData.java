@@ -26,7 +26,7 @@ public class EntrenadorData {
         this.con = conexion.buscarConexion();
     }
     
-    public void guardarEntrenador (Entrenador e){    
+    public boolean guardarEntrenador (Entrenador e){    
         String sql = "INSERT INTO entrenador (dni, nombre, apellido, especialidad, estado) VALUES (?,?,?,?,?)";  
         
         try {
@@ -42,6 +42,8 @@ public class EntrenadorData {
             if(rs.next()){
                 e.setIdEntrenador(1);
                 JOptionPane.showMessageDialog(null,"Entrenador guardado exitosamente");
+                ps.close();
+                return true;
             }else{
                 JOptionPane.showMessageDialog(null,"No se pudo guardar entrenador");
             }
@@ -49,6 +51,7 @@ public class EntrenadorData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla entrenador");    
         }
+        return false;
     }
     
     public void bajaEntrenador (int idEntrenador){ 
@@ -56,7 +59,8 @@ public class EntrenadorData {
         try {
             PreparedStatement ps = con.prepareStatement(query); 
             ps.setInt(1, idEntrenador);
-            int exito = ps.executeUpdate();    
+            int exito = ps.executeUpdate();  
+            ps.close();
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Entrenador dado de baja");
            }else{
@@ -126,14 +130,14 @@ public class EntrenadorData {
         }
     }  
       
-    public Entrenador buscarEntrenador(String dni){
+    public Entrenador buscarEntrenador(int idEntrenador){
         Entrenador e = null;
         
         String sql = "SELECT * FROM entrenador WHERE idEntrenador=?";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
-            ps.setString(1, dni);
+            ps.setInt(1, idEntrenador);
             ResultSet rs = ps.executeQuery();
             
             if(rs.next()){
@@ -145,7 +149,7 @@ public class EntrenadorData {
                 e.setEspecialidad(rs.getString("especialidad"));
                 e.setEstado(rs.getBoolean("estado"));
             }else{
-                JOptionPane.showMessageDialog(null,"No existe un entrenador con ese DNI");
+                JOptionPane.showMessageDialog(null,"No existe un entrenador con ese ID");
             }
             ps.close();
         }catch (SQLException ex){

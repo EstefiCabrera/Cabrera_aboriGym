@@ -19,6 +19,7 @@ import persistencia.EntrenadorData;
  */
 public class VistaClases extends javax.swing.JInternalFrame {
     private miConexion conexion;
+    private EntrenadorData entrenadorData;
     private ClaseGymData claseGymData;
 
     /**
@@ -27,7 +28,9 @@ public class VistaClases extends javax.swing.JInternalFrame {
     public VistaClases() {
         initComponents();
         conexion = new miConexion();
+        entrenadorData = new EntrenadorData(conexion);
         claseGymData = new ClaseGymData(conexion);
+        modoFormulario(false);
         cargarComboEntrenadores();
         limpiarCampos();
     }
@@ -58,14 +61,15 @@ public class VistaClases extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnBaja = new javax.swing.JButton();
         jcbEntrenador = new javax.swing.JComboBox();
-        spinnerHora = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
         txtCapacidad = new javax.swing.JTextField();
+        jcbHorario = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setPreferredSize(new java.awt.Dimension(600, 500));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel1.setText("CLASES");
@@ -111,7 +115,7 @@ public class VistaClases extends javax.swing.JInternalFrame {
         btnModificar.addActionListener(this::btnModificarActionPerformed);
 
         btnNuevo.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        btnNuevo.setText("Nuevo");
+        btnNuevo.setText("Nueva Clase");
         btnNuevo.addActionListener(this::btnNuevoActionPerformed);
 
         btnBaja.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
@@ -120,113 +124,120 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
         jcbEntrenador.addActionListener(this::jcbEntrenadorActionPerformed);
 
-        spinnerHora.addChangeListener(this::spinnerHoraStateChanged);
-
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel7.setText("Disponibilidad:");
 
         txtCapacidad.addActionListener(this::txtCapacidadActionPerformed);
+
+        jcbHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una hora... ", "8:00", "9:00", "10:00", "11:00", "12:00", "17:00", "18:00", "19:00", "20:00" }));
+        jcbHorario.addActionListener(this::jcbHorarioActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(143, 143, 143)
+                                .addComponent(jLabel1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jLabel4)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel7)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtDisponibilidad)
+                            .addComponent(jcbHorario, 0, 153, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel6)
                         .addGap(18, 18, 18)
-                        .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addComponent(jLabel7))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(spinnerHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addGap(6, 6, 6)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chekEstado)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnNuevo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addComponent(btnGuardar)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(chekEstado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnGuardar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnModificar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnBaja))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel1)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(btnModificar)
+                        .addGap(42, 42, 42)
+                        .addComponent(btnBaja)
+                        .addGap(60, 60, 60))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(spinnerHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(chekEstado))
+                            .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 53, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(chekEstado, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
 
@@ -251,11 +262,11 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         if (txtId.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe buscar una clase para modificar sus datos.");
+                JOptionPane.showMessageDialog(null, "Debe buscar una clase para modificar sus datos.");
         return;
         }
         if (txtDisciplina.getText().isEmpty() || txtCapacidad.getText().isEmpty() || jcbEntrenador.getSelectedIndex() <= 0) {
-            javax.swing.JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos requeridos antes de modificar.");
+                JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos requeridos antes de modificar.");
             return;
         }
 
@@ -266,8 +277,9 @@ public class VistaClases extends javax.swing.JInternalFrame {
             cm.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
             cm.setEstado(chekEstado.isSelected());
 
-            int horaSeleccionada = (int) spinnerHora.getValue();
-            java.time.LocalTime horarioLocal = java.time.LocalTime.of(horaSeleccionada, 0);
+            String horaTexto = jcbHorario.getSelectedItem().toString();
+            int horaSelecc = Integer.parseInt(horaTexto);
+            LocalTime horarioLocal = java.time.LocalTime.of(horaSelecc, 0);
             cm.setHorario(horarioLocal);
 
             Entrenador entrenadorSeleccionado = (Entrenador) jcbEntrenador.getSelectedItem();
@@ -277,7 +289,7 @@ public class VistaClases extends javax.swing.JInternalFrame {
             limpiarCampos();
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "La capacidad debe ser un número entero válido.");
+            JOptionPane.showMessageDialog(null, "El ID y la capacidad debe ser un número entero válido.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al modificar la clase: " + e.getMessage());
         }
@@ -288,11 +300,46 @@ public class VistaClases extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCapacidadActionPerformed
 
     private void jcbEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEntrenadorActionPerformed
-        verificarDisponibilidad();
+
+        if (jcbEntrenador.getSelectedIndex() > 0) {
+            verificarDisponibilidad();
+
+            Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
+
+            txtDisciplina.setText(ent.getEspecialidad());        
+        } else {
+            txtDisciplina.setText("");
+            txtDisponibilidad.setText("Seleccione un entrenador...");
+            txtDisponibilidad.setForeground(java.awt.Color.LIGHT_GRAY);
+            btnGuardar.setEnabled(false);
+        }
     }//GEN-LAST:event_jcbEntrenadorActionPerformed
 
     private void jbtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtBuscarActionPerformed
-       
+        if(txtId.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor ingrese un ID");
+        return;
+        }
+        try{
+            int idBuscado = Integer.parseInt(txtId.getText());
+            ClaseGym cb = claseGymData.buscarClase(idBuscado);
+            
+            if(cb !=null){
+                txtDisciplina.setText(cb.getDisciplina());
+                txtCapacidad.setText(String.valueOf(cb.getCapacidad()));
+                jcbEntrenador.setSelectedItem(cb.getEntrenador());
+                jcbHorario.setSelectedItem(cb.getHorario());
+                chekEstado.setSelected(cb.isEstado());
+                
+                btnGuardar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                btnBaja.setEnabled(true);
+            }
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "El ID debe ser un numero válido.");   
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(null, "Error al procesar la búsqueda: "+e.getMessage());
+        }
     }//GEN-LAST:event_jbtBuscarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -308,8 +355,9 @@ public class VistaClases extends javax.swing.JInternalFrame {
            nuevaClase.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
            nuevaClase.setEstado(chekEstado.isSelected());
 
-           int horaSeleccionada = (int) spinnerHora.getValue();
-           LocalTime horarioLocal = java.time.LocalTime.of(horaSeleccionada, 0);
+           String horaTexto = jcbHorario.getSelectedItem().toString();
+           int horaSelecc = Integer.parseInt(horaTexto);
+           LocalTime horarioLocal = java.time.LocalTime.of(horaSelecc, 0);
            nuevaClase.setHorario(horarioLocal);
 
            Entrenador entrenadorSeleccionado = (Entrenador) jcbEntrenador.getSelectedItem();
@@ -317,7 +365,8 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
            claseGymData.guardarClaseGym(nuevaClase); 
            limpiarCampos();
-
+           modoFormulario(false);
+           
         } catch (NumberFormatException e) {
            JOptionPane.showMessageDialog(null, "La capacidad debe ser un número entero válido.");
         } catch (Exception e) {
@@ -325,12 +374,9 @@ public class VistaClases extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void spinnerHoraStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spinnerHoraStateChanged
-        verificarDisponibilidad();
-    }//GEN-LAST:event_spinnerHoraStateChanged
-
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
+        modoFormulario(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
@@ -357,6 +403,10 @@ public class VistaClases extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBajaActionPerformed
 
+    private void jcbHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbHorarioActionPerformed
+        verificarDisponibilidad();
+    }//GEN-LAST:event_jcbHorarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBaja;
@@ -374,7 +424,7 @@ public class VistaClases extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jbtBuscar;
     private javax.swing.JComboBox jcbEntrenador;
-    private javax.swing.JSpinner spinnerHora;
+    private javax.swing.JComboBox<String> jcbHorario;
     private javax.swing.JTextField txtCapacidad;
     private javax.swing.JTextField txtDisciplina;
     private javax.swing.JTextField txtDisponibilidad;
@@ -385,7 +435,7 @@ public class VistaClases extends javax.swing.JInternalFrame {
         txtId.setText("");
         txtDisciplina.setText("");
         txtCapacidad.setText("");
-        spinnerHora.setValue(0);
+        jcbHorario.setSelectedIndex(0);
         if(jcbEntrenador.getItemCount()>0){
             jcbEntrenador.setSelectedIndex(0);
         }
@@ -417,12 +467,28 @@ public class VistaClases extends javax.swing.JInternalFrame {
     }
 
     try {
-        // 2. Obtener el Entrenador seleccionado y la hora del Spinner
-        Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
-        int horaSeleccionada = (int) spinnerHora.getValue();
+        if (jcbHorario.getSelectedIndex() <= 0) {
+        txtDisponibilidad.setText("Seleccione un horario...");
+        txtDisponibilidad.setForeground(java.awt.Color.LIGHT_GRAY);
+        btnGuardar.setEnabled(false);
+        return;
+        }
 
-        // 3. Consultar a la base de datos mediante tu clase de datos
+        Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
+
+        // CORREGIDO PARA COMBOBOX: Convertimos el String seleccionado a número entero
+        String horaTexto = jcbHorario.getSelectedItem().toString();
+        int horaSeleccionada = Integer.parseInt(horaTexto);
+
+        // 3. Consultar a la base de datos mediante tu clase de datos (Queda exactamente igual)
         boolean estaOcupado = claseGymData.comprobarSuperposicion(ent.getIdEntrenador(), horaSeleccionada);
+
+//        // 2. Obtener el Entrenador seleccionado y la hora del Spinner
+//        Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
+//        int horaSeleccionada = (int) spinnerHora.getValue();
+//
+//        // 3. Consultar a la base de datos mediante tu clase de datos
+//        boolean estaOcupado = claseGymData.comprobarSuperposicion(ent.getIdEntrenador(), horaSeleccionada);
 
         // 4. Cambiar el texto y el color del JLabel en tiempo real
         if (estaOcupado) {
@@ -439,4 +505,17 @@ public class VistaClases extends javax.swing.JInternalFrame {
         txtDisponibilidad.setText("Comprobando disponibilidad...");
     }
 }
+    private void modoFormulario(boolean nuevo){
+        if(nuevo){
+            txtId.setText("");
+            txtId.setEnabled(false);
+            btnGuardar.setEnabled(false);
+            btnGuardar.setEnabled(true);
+        }else {
+            txtId.setEnabled(true);
+            jbtBuscar.setEnabled(true);
+            btnGuardar.setEnabled(false);
+        }
+    }
+    
 }
