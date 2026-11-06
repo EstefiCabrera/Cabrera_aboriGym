@@ -5,6 +5,7 @@
 package vistas2;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.miConexion;
@@ -30,7 +31,12 @@ public class VistaClases extends javax.swing.JInternalFrame {
         conexion = new miConexion();
         entrenadorData = new EntrenadorData(conexion);
         claseGymData = new ClaseGymData(conexion);
-        modoFormulario(false);
+        txtIdClase.setEnabled(false);
+        jbtBuscar.setText("Buscar");
+        btnGuardar.setEnabled(true);
+        jbtBuscar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnBaja.setEnabled(false);
         cargarComboEntrenadores();
         limpiarCampos();
     }
@@ -46,14 +52,13 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtIdClase = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtDisciplina = new javax.swing.JTextField();
         jbtBuscar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtDisponibilidad = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         chekEstado = new javax.swing.JCheckBox();
         btnGuardar = new javax.swing.JButton();
@@ -61,7 +66,6 @@ public class VistaClases extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnBaja = new javax.swing.JButton();
         jcbEntrenador = new javax.swing.JComboBox();
-        jLabel7 = new javax.swing.JLabel();
         txtCapacidad = new javax.swing.JTextField();
         jcbHorario = new javax.swing.JComboBox<>();
 
@@ -69,7 +73,7 @@ public class VistaClases extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(600, 350));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel1.setText("CLASES");
@@ -77,13 +81,13 @@ public class VistaClases extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel2.setText("ID clase:");
 
-        txtId.setEditable(false);
-        txtId.addActionListener(this::txtIdActionPerformed);
+        txtIdClase.setEditable(false);
+        txtIdClase.setColumns(5);
 
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel4.setText("Disciplina:");
 
-        txtDisciplina.addActionListener(this::txtDisciplinaActionPerformed);
+        txtDisciplina.setEnabled(false);
 
         jbtBuscar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jbtBuscar.setText("Buscar");
@@ -98,13 +102,8 @@ public class VistaClases extends javax.swing.JInternalFrame {
         jLabel6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel6.setText("Capacidad:");
 
-        txtDisponibilidad.setEditable(false);
-        txtDisponibilidad.addActionListener(this::txtDisponibilidadActionPerformed);
-
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel9.setText("Estado:");
-
-        chekEstado.addActionListener(this::chekEstadoActionPerformed);
 
         btnGuardar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -124,170 +123,131 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
         jcbEntrenador.addActionListener(this::jcbEntrenadorActionPerformed);
 
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jLabel7.setText("Disponibilidad:");
-
-        txtCapacidad.addActionListener(this::txtCapacidadActionPerformed);
-
         jcbHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una hora... ", "8:00", "9:00", "10:00", "11:00", "12:00", "17:00", "18:00", "19:00", "20:00" }));
-        jcbHorario.addActionListener(this::jcbHorarioActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(258, 258, 258))
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(143, 143, 143)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(63, 63, 63)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDisponibilidad)
-                            .addComponent(jcbHorario, 0, 153, Short.MAX_VALUE))
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chekEstado)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(28, 28, 28)
+                                        .addComponent(txtIdClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(chekEstado)
+                                        .addGap(58, 58, 58))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(187, 187, 187)
+                                .addComponent(btnModificar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBaja))
+                            .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addComponent(btnNuevo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(btnGuardar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModificar)
-                        .addGap(42, 42, 42)
-                        .addComponent(btnBaja)
-                        .addGap(60, 60, 60))))
+                        .addGap(46, 46, 46)
+                        .addComponent(btnGuardar)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel3)
-                        .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtDisponibilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 53, Short.MAX_VALUE)
+                    .addComponent(jcbEntrenador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2)
+                    .addComponent(txtIdClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jcbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                    .addComponent(txtDisciplina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jbtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(chekEstado, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(21, 21, 21)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel6)
+                                .addComponent(txtCapacidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(18, 18, 18)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel5)
+                                .addComponent(jcbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(chekEstado)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17))
+                    .addComponent(btnBaja, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdActionPerformed
-
-    private void txtDisciplinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDisciplinaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDisciplinaActionPerformed
-
-    private void txtDisponibilidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDisponibilidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDisponibilidadActionPerformed
-
-    private void chekEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chekEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chekEstadoActionPerformed
-
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        if (txtId.getText().isEmpty()) {
+        if (txtIdClase.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Debe buscar una clase para modificar sus datos.");
         return;
         }
+        
         if (txtDisciplina.getText().isEmpty() || txtCapacidad.getText().isEmpty() || jcbEntrenador.getSelectedIndex() <= 0) {
                 JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos requeridos antes de modificar.");
             return;
         }
-
         try {
             ClaseGym cm = new ClaseGym();
-            cm.setIdClase(Integer.parseInt(txtId.getText()));
+            cm.setIdClase(Integer.parseInt(txtIdClase.getText()));
             cm.setDisciplina(txtDisciplina.getText());
             cm.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
             cm.setEstado(chekEstado.isSelected());
 
-            String horaTexto = jcbHorario.getSelectedItem().toString();
-            int horaSelecc = Integer.parseInt(horaTexto);
-            LocalTime horarioLocal = java.time.LocalTime.of(horaSelecc, 0);
+            String horaTexto = jcbHorario.getSelectedItem().toString().trim();
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime horarioLocal = java.time.LocalTime.parse(horaTexto, formato);
             cm.setHorario(horarioLocal);
 
             Entrenador entrenadorSeleccionado = (Entrenador) jcbEntrenador.getSelectedItem();
             cm.setEntrenador(entrenadorSeleccionado);
-
+            
+            if(claseGymData.comprobarSuperposicion(entrenadorSeleccionado.getIdEntrenador(), horarioLocal)){
+                JOptionPane.showMessageDialog(null, "No se puede modificar, el entrenador tiene una clase en ese horario");
+                return;
+            }
             claseGymData.modificarClaseGym(cm); 
             limpiarCampos();
-
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El ID y la capacidad debe ser un número entero válido.");
         } catch (Exception e) {
@@ -295,77 +255,91 @@ public class VistaClases extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void txtCapacidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCapacidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCapacidadActionPerformed
-
     private void jcbEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbEntrenadorActionPerformed
-
-        if (jcbEntrenador.getSelectedIndex() > 0) {
-            verificarDisponibilidad();
-
+        if (jcbEntrenador.getSelectedItem() != null && jcbEntrenador.getSelectedIndex() > 0){
             Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
-
             txtDisciplina.setText(ent.getEspecialidad());        
         } else {
             txtDisciplina.setText("");
-            txtDisponibilidad.setText("Seleccione un entrenador...");
-            txtDisponibilidad.setForeground(java.awt.Color.LIGHT_GRAY);
-            btnGuardar.setEnabled(false);
         }
     }//GEN-LAST:event_jcbEntrenadorActionPerformed
 
     private void jbtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtBuscarActionPerformed
-        if(txtId.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Por favor ingrese un ID");
-        return;
+        if(!txtIdClase.isEnabled()){
+            txtIdClase.setEnabled(true);
+            txtIdClase.setEditable(true);           
+            txtIdClase.setText("");
+            txtIdClase.requestFocus();
+            jbtBuscar.setText("Confirmar");
+            return;
         }
+        String idC = txtIdClase.getText().trim();
+        if(idC.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un ID");
+            txtIdClase.requestFocus();
+            return;
+            }             
         try{
-            int idBuscado = Integer.parseInt(txtId.getText());
+            int idBuscado = Integer.parseInt(txtIdClase.getText());
             ClaseGym cb = claseGymData.buscarClase(idBuscado);
             
             if(cb !=null){
                 txtDisciplina.setText(cb.getDisciplina());
-                txtCapacidad.setText(String.valueOf(cb.getCapacidad()));
+                txtCapacidad.setText(String.valueOf(cb.getCapacidad()));               
                 jcbEntrenador.setSelectedItem(cb.getEntrenador());
-                jcbHorario.setSelectedItem(cb.getHorario());
-                chekEstado.setSelected(cb.isEstado());
                 
+                if (cb.getHorario() != null) {
+                int horaBaseDatos = cb.getHorario().getHour();
+                    for (int i = 0; i < jcbHorario.getItemCount(); i++) {
+                        String opcionCombo = jcbHorario.getItemAt(i);
+                            if (opcionCombo.contains(String.valueOf(horaBaseDatos))) {
+                                jcbHorario.setSelectedIndex(i); 
+                                break;
+                        }
+                    }
+                }
+                chekEstado.setSelected(cb.isEstado());                  
                 btnGuardar.setEnabled(false);
                 btnModificar.setEnabled(true);
                 btnBaja.setEnabled(true);
+            }else{
+                limpiarCampos();
             }
+            txtIdClase.setEnabled(false);
+            jbtBuscar.setText("Buscar");
         } catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(null, "El ID debe ser un numero válido.");   
         }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error al procesar la búsqueda: "+e.getMessage());
+            txtIdClase.requestFocus();
         }
     }//GEN-LAST:event_jbtBuscarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txtDisciplina.getText().isEmpty() || txtCapacidad.getText().isEmpty() || jcbEntrenador.getSelectedIndex() <= 0) {
+        if (txtDisciplina.getText().trim().isEmpty() || txtCapacidad.getText().trim().isEmpty() || jcbEntrenador.getSelectedIndex() <= 0 || jcbHorario.getSelectedIndex()<=0){
             JOptionPane.showMessageDialog(null, "Por favor complete todos los campos.");
         return;
         }
-
         try {
            ClaseGym nuevaClase = new ClaseGym();
            nuevaClase.setDisciplina(txtDisciplina.getText());
-
            nuevaClase.setCapacidad(Integer.parseInt(txtCapacidad.getText()));
            nuevaClase.setEstado(chekEstado.isSelected());
 
-           String horaTexto = jcbHorario.getSelectedItem().toString();
-           int horaSelecc = Integer.parseInt(horaTexto);
-           LocalTime horarioLocal = java.time.LocalTime.of(horaSelecc, 0);
+           String horaTexto = jcbHorario.getSelectedItem().toString().trim();
+           DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");
+           LocalTime horarioLocal = java.time.LocalTime.parse(horaTexto, formato);
            nuevaClase.setHorario(horarioLocal);
 
            Entrenador entrenadorSeleccionado = (Entrenador) jcbEntrenador.getSelectedItem();
            nuevaClase.setEntrenador(entrenadorSeleccionado);
 
+           if(claseGymData.comprobarSuperposicion(entrenadorSeleccionado.getIdEntrenador(), horarioLocal)){
+               JOptionPane.showMessageDialog(null, "El entrenador ya tiene una clase a esa hora.");
+               return;
+           }
            claseGymData.guardarClaseGym(nuevaClase); 
            limpiarCampos();
-           modoFormulario(false);
            
         } catch (NumberFormatException e) {
            JOptionPane.showMessageDialog(null, "La capacidad debe ser un número entero válido.");
@@ -376,16 +350,16 @@ public class VistaClases extends javax.swing.JInternalFrame {
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         limpiarCampos();
-        modoFormulario(true);
+
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBajaActionPerformed
-        if (txtId.getText().isEmpty()) {
+        if (txtIdClase.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe buscar una clase para darle de baja.");
         return;
     }
         try {
-            int idClase = Integer.parseInt(txtId.getText());
+            int idClase = Integer.parseInt(txtIdClase.getText());
 
             int respuesta = JOptionPane.showConfirmDialog(null, 
                 "¿Está seguro de que desea dar de baja a esta clase?", 
@@ -403,10 +377,6 @@ public class VistaClases extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnBajaActionPerformed
 
-    private void jcbHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbHorarioActionPerformed
-        verificarDisponibilidad();
-    }//GEN-LAST:event_jcbHorarioActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBaja;
@@ -420,19 +390,19 @@ public class VistaClases extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JButton jbtBuscar;
     private javax.swing.JComboBox jcbEntrenador;
     private javax.swing.JComboBox<String> jcbHorario;
     private javax.swing.JTextField txtCapacidad;
     private javax.swing.JTextField txtDisciplina;
-    private javax.swing.JTextField txtDisponibilidad;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdClase;
     // End of variables declaration//GEN-END:variables
 
     private void limpiarCampos() {
-        txtId.setText("");
+        txtIdClase.setText("");
+        txtIdClase.setEnabled(false);
+        jbtBuscar.setText("Buscar");
         txtDisciplina.setText("");
         txtCapacidad.setText("");
         jcbHorario.setSelectedIndex(0);
@@ -440,7 +410,10 @@ public class VistaClases extends javax.swing.JInternalFrame {
             jcbEntrenador.setSelectedIndex(0);
         }
         chekEstado.setSelected(true);
-        txtDisponibilidad.setText("");
+        
+        btnGuardar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnBaja.setEnabled(false);
     }
     
     private void cargarComboEntrenadores() {
@@ -451,71 +424,12 @@ public class VistaClases extends javax.swing.JInternalFrame {
             EntrenadorData ed = new EntrenadorData(conexion); 
             List<Entrenador> lista = ed.listarEntrenadores();
                 for (Entrenador e : lista) {
+                    if(e.isEstado()){
                 jcbEntrenador.addItem(e); 
             }
+        }
         } catch (Exception ex) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar el selector de entrenadores: " + ex.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar entrenadores: " + ex.getMessage());
         }
     }
-    
-    private void verificarDisponibilidad() {
-    // 1. Validar que haya un entrenador seleccionado
-    if (jcbEntrenador.getSelectedIndex() <= 0) {
-        txtDisponibilidad.setText("Seleccione un entrenador...");
-        txtDisponibilidad.setForeground(java.awt.Color.LIGHT_GRAY);
-        return;
-    }
-
-    try {
-        if (jcbHorario.getSelectedIndex() <= 0) {
-        txtDisponibilidad.setText("Seleccione un horario...");
-        txtDisponibilidad.setForeground(java.awt.Color.LIGHT_GRAY);
-        btnGuardar.setEnabled(false);
-        return;
-        }
-
-        Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
-
-        // CORREGIDO PARA COMBOBOX: Convertimos el String seleccionado a número entero
-        String horaTexto = jcbHorario.getSelectedItem().toString();
-        int horaSeleccionada = Integer.parseInt(horaTexto);
-
-        // 3. Consultar a la base de datos mediante tu clase de datos (Queda exactamente igual)
-        boolean estaOcupado = claseGymData.comprobarSuperposicion(ent.getIdEntrenador(), horaSeleccionada);
-
-//        // 2. Obtener el Entrenador seleccionado y la hora del Spinner
-//        Entrenador ent = (Entrenador) jcbEntrenador.getSelectedItem();
-//        int horaSeleccionada = (int) spinnerHora.getValue();
-//
-//        // 3. Consultar a la base de datos mediante tu clase de datos
-//        boolean estaOcupado = claseGymData.comprobarSuperposicion(ent.getIdEntrenador(), horaSeleccionada);
-
-        // 4. Cambiar el texto y el color del JLabel en tiempo real
-        if (estaOcupado) {
-            txtDisponibilidad.setText("🔴 OCUPADO - El entrenador ya dicta otra clase");
-            txtDisponibilidad.setForeground(new java.awt.Color(230, 50, 50)); // Rojo
-            btnGuardar.setEnabled(false); // Bloqueamos el botón para evitar registros inválidos
-        } else {
-            txtDisponibilidad.setText("🟢 LIBRE - Horario disponible");
-            txtDisponibilidad.setForeground(new java.awt.Color(50, 200, 50)); // Verde
-            btnGuardar.setEnabled(true);  // Habilitamos el botón
-        }
-    } catch (Exception e) {
-        // En caso de usar el Plan B del combo que guarda Strings, capturamos el error aquí de forma segura
-        txtDisponibilidad.setText("Comprobando disponibilidad...");
-    }
-}
-    private void modoFormulario(boolean nuevo){
-        if(nuevo){
-            txtId.setText("");
-            txtId.setEnabled(false);
-            btnGuardar.setEnabled(false);
-            btnGuardar.setEnabled(true);
-        }else {
-            txtId.setEnabled(true);
-            jbtBuscar.setEnabled(true);
-            btnGuardar.setEnabled(false);
-        }
-    }
-    
 }

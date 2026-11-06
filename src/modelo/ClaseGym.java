@@ -88,7 +88,7 @@ public class ClaseGym {
 
     @Override
     public String toString() {
-        return "ClaseGym{" + "idClase=" + idClase + ", disciplina=" + disciplina + ", entrenador=" + entrenador + ", horario=" + horario + ", capacidad=" + capacidad + ", estado=" + estado + '}';
+        return "ID: " + idClase + ", disciplina=" + disciplina + ", entrenador=" + entrenador + ", horario=" + horario + ", capacidad=" + capacidad + ", estado=" + estado + '}';
     }    
 }
 

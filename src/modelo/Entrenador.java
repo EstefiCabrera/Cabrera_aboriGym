@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import java.util.Objects;
+
 /**
  *
  * @author estef
@@ -86,6 +88,48 @@ public class Entrenador {
 
     @Override
     public String toString() {
-        return "ID: "+ idEntrenador + apellido +", "+ nombre+". " + "DNI: "+dni +".";
+        return "ID: "+ idEntrenador +" - "+ apellido +", "+ nombre+".";
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 61 * hash + this.idEntrenador;
+        hash = 61 * hash + Objects.hashCode(this.dni);
+        hash = 61 * hash + Objects.hashCode(this.nombre);
+        hash = 61 * hash + Objects.hashCode(this.apellido);
+        hash = 61 * hash + Objects.hashCode(this.especialidad);
+        hash = 61 * hash + (this.estado ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Entrenador other = (Entrenador) obj;
+        if (this.idEntrenador != other.idEntrenador) {
+            return false;
+        }
+        if (this.estado != other.estado) {
+            return false;
+        }
+        if (!Objects.equals(this.dni, other.dni)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        return Objects.equals(this.especialidad, other.especialidad);
     }
 }

@@ -279,8 +279,7 @@ public class FormuSocios extends javax.swing.JInternalFrame {
                 btnGuardar.setEnabled(true);
                 btnModificar.setEnabled(false);
                 btnBaja.setEnabled(false);
-            }
-            
+            }     
          }catch (Exception e){
             JOptionPane.showMessageDialog(null, "Error al procesar la búsqueda: "+e.getMessage());
         }

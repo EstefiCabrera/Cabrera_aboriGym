@@ -35,11 +35,11 @@ public class ventana extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuSocios = new javax.swing.JMenuItem();
-        jMenuClases = new javax.swing.JMenuItem();
         jMenuPases = new javax.swing.JMenuItem();
         jMenuAsistencia = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuEntrenadores = new javax.swing.JMenuItem();
+        jMenuClases1 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
 
@@ -70,10 +70,6 @@ public class ventana extends javax.swing.JFrame {
         jMenuSocios.addActionListener(this::jMenuSociosActionPerformed);
         jMenu1.add(jMenuSocios);
 
-        jMenuClases.setText("Clases");
-        jMenuClases.addActionListener(this::jMenuClasesActionPerformed);
-        jMenu1.add(jMenuClases);
-
         jMenuPases.setText("Pases");
         jMenuPases.addActionListener(this::jMenuPasesActionPerformed);
         jMenu1.add(jMenuPases);
@@ -88,6 +84,10 @@ public class ventana extends javax.swing.JFrame {
         jMenuEntrenadores.setText("Entrenadores");
         jMenuEntrenadores.addActionListener(this::jMenuEntrenadoresActionPerformed);
         jMenu2.add(jMenuEntrenadores);
+
+        jMenuClases1.setText("Clases");
+        jMenuClases1.addActionListener(this::jMenuClases1ActionPerformed);
+        jMenu2.add(jMenuClases1);
 
         jMenuItem6.setText("Buscar...Listas....");
         jMenu2.add(jMenuItem6);
@@ -131,15 +131,6 @@ public class ventana extends javax.swing.JFrame {
         contenedor.moveToFront(socio);
     }//GEN-LAST:event_jMenuSociosActionPerformed
 
-    private void jMenuClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClasesActionPerformed
-        contenedor.removeAll();
-        contenedor.repaint();
-        VistaClases clases = new VistaClases();
-        contenedor.add(clases);
-        clases.setVisible(true);
-        contenedor.moveToFront(clases);
-    }//GEN-LAST:event_jMenuClasesActionPerformed
-
     private void jMenuPasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPasesActionPerformed
         contenedor.removeAll();
         contenedor.repaint();
@@ -161,6 +152,15 @@ public class ventana extends javax.swing.JFrame {
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirMouseClicked
+
+    private void jMenuClases1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClases1ActionPerformed
+         contenedor.removeAll();
+        contenedor.repaint();
+        VistaClases clases = new VistaClases();
+        contenedor.add(clases);
+        clases.setVisible(true);
+        contenedor.moveToFront(clases);
+    }//GEN-LAST:event_jMenuClases1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,7 +196,7 @@ public class ventana extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuAsistencia;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JMenuItem jMenuClases;
+    private javax.swing.JMenuItem jMenuClases1;
     private javax.swing.JMenuItem jMenuEntrenadores;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuPases;

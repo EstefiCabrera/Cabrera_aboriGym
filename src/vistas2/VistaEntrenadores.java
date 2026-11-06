@@ -80,7 +80,6 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         jLabel2.setText("ID entrenador:");
 
         txtIdEntrenador.setColumns(5);
-        txtIdEntrenador.addActionListener(this::txtIdEntrenadorActionPerformed);
 
         btnBuscar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         btnBuscar.setText("Buscar");
@@ -89,27 +88,17 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel3.setText("DNI:");
 
-        txtDni.addActionListener(this::txtDniActionPerformed);
-
         jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel4.setText("Nombre: ");
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel5.setText("Apellido:");
 
-        txtApellido.addActionListener(this::txtApellidoActionPerformed);
-
-        txtNombre.addActionListener(this::txtNombreActionPerformed);
-
         jLabel7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel7.setText("Especialidad:");
 
-        txtEspecialidad.addActionListener(this::txtEspecialidadActionPerformed);
-
         jLabel9.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel9.setText("Estado:");
-
-        chekEstado.addActionListener(this::chekEstadoActionPerformed);
 
         btnGuardar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         btnGuardar.setText("Guardar");
@@ -223,30 +212,6 @@ public class VistaEntrenadores extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtIdEntrenadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdEntrenadorActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdEntrenadorActionPerformed
-
-    private void txtDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDniActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDniActionPerformed
-
-    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoActionPerformed
-
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
-    private void txtEspecialidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEspecialidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEspecialidadActionPerformed
-
-    private void chekEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chekEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chekEstadoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         if(txtIdEntrenador.getText().isEmpty()){

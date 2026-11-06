@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import java.util.Objects;
+
 /**
  *
  * @author estef
@@ -110,5 +112,54 @@ public class Socio {
     public String toString() {
         return "ID: "+idSocio +" - "+ apellido +", " + nombre + ".";
     }
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.idSocio;
+        hash = 97 * hash + Objects.hashCode(this.dni);
+        hash = 97 * hash + Objects.hashCode(this.nombre);
+        hash = 97 * hash + Objects.hashCode(this.apellido);
+        hash = 97 * hash + this.edad;
+        hash = 97 * hash + Objects.hashCode(this.correo);
+        hash = 97 * hash + Objects.hashCode(this.telefono);
+        hash = 97 * hash + (this.estado ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Socio other = (Socio) obj;
+        if (this.idSocio != other.idSocio) {
+            return false;
+        }
+        if (this.edad != other.edad) {
+            return false;
+        }
+        if (this.estado != other.estado) {
+            return false;
+        }
+        if (!Objects.equals(this.dni, other.dni)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        if (!Objects.equals(this.correo, other.correo)) {
+            return false;
+        }
+        return Objects.equals(this.telefono, other.telefono);
+    }
 }

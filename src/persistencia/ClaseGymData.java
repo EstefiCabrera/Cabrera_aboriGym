@@ -13,6 +13,7 @@ import modelo.miConexion;
 import java.sql.Time;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Entrenador;
@@ -27,11 +28,11 @@ public class ClaseGymData {
     
     public ClaseGymData(miConexion conexion){
         this.con = conexion.buscarConexion();
-        this.entrenadorData = entrenadorData;
+        this.entrenadorData = new EntrenadorData(conexion);
     }
     
     public void guardarClaseGym (ClaseGym c){    
-        String sql = "INSERT INTO claseGym (disciplina, idEntrenador, horario, capacidad, estado) VALUES (?,?,?,?,?)";  
+        String sql = "INSERT INTO clasegym (disciplina, idEntrenador, horario, capacidad, estado) VALUES (?,?,?,?,?)";  
         
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); 
@@ -56,7 +57,7 @@ public class ClaseGymData {
     }
     
     public void modificarClaseGym (ClaseGym c){
-        String sql = "UPDATE claseGym SET disciplina=?, idEntrenador=?, horario =?, capacidad=?, estado=? WHERE idClase =? AND estado=1";  
+        String sql = "UPDATE clasegym SET disciplina=?, idEntrenador=?, horario =?, capacidad=?, estado=? WHERE idClase =?";  
         try {
              PreparedStatement ps = con.prepareStatement(sql); 
              ps.setString(1, c.getDisciplina());
@@ -64,7 +65,7 @@ public class ClaseGymData {
              ps.setTime(3, Time.valueOf(c.getHorario()));
              ps.setInt(4, c.getCapacidad());;
              ps.setBoolean(5, c.isEstado());
-             ps.setInt(5, c.getIdClase());
+             ps.setInt(6, c.getIdClase());
              
              int exito = ps.executeUpdate();     
              if(exito==1){
@@ -81,7 +82,7 @@ public class ClaseGymData {
     public List<ClaseGym> listarClaseGymPorDisciplina (String disciplina){
         List<ClaseGym> lista = new ArrayList<>();
         
-        String sql = "SELECT * FROM claseGym WHERE disciplina=? AND estado = 1";
+        String sql = "SELECT * FROM clasegym WHERE disciplina=? AND estado = 1";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
@@ -112,7 +113,7 @@ public class ClaseGymData {
     }
     
     public void bajaClase (int idClase){ 
-        String query = "UPDATE claseGym SET estado =0 WHERE idClase=?";  
+        String query = "UPDATE clasegym SET estado =0 WHERE idClase=?";  
         try {
             PreparedStatement ps = con.prepareStatement(query); 
             ps.setInt(1, idClase);
@@ -129,7 +130,7 @@ public class ClaseGymData {
     }
      
     public void altaClase (int idClase){  
-        String query = "UPDATE claseGym SET estado =1 WHERE idClase=?";  
+        String query = "UPDATE clasegym SET estado =1 WHERE idClase=?";  
         try {
             PreparedStatement ps = con.prepareStatement(query); 
             ps.setInt(1, idClase);
@@ -146,7 +147,7 @@ public class ClaseGymData {
     }
     
     public void eliminarClase (int idClase){
-        String sql = "DELETE FROM claseGym WHERE idClase = ?";
+        String sql = "DELETE FROM clasegym WHERE idClase = ?";
         
         try{
             PreparedStatement ps = con.prepareStatement(sql);
@@ -166,7 +167,7 @@ public class ClaseGymData {
     public ClaseGym buscarClase(int idClase){
         ClaseGym c = null;
         
-        String sql = "SELECT * FROM classeGym WHERE idClase=?";
+        String sql = "SELECT * FROM clasegym WHERE idClase=?";
         
         try{
             PreparedStatement ps= con.prepareStatement(sql);
@@ -194,17 +195,19 @@ public class ClaseGymData {
         return c;
     }
     
-    public boolean comprobarSuperposicion(int idEntrenador, int hora) {
+    public boolean comprobarSuperposicion(int idEntrenador, LocalTime horario) {
         boolean ocupado = false;
-        String sql = "SELECT COUNT(*) FROM claseGym WHERE idEntrenador =? AND HOUR(horario) =? AND estado =1;";
+        String sql = "SELECT COUNT(*) FROM clasegym WHERE idEntrenador =? AND horario =? AND estado =1;";
 
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idEntrenador);
-            ps.setInt(2, hora);
+            ps.setTime(2, Time.valueOf(horario));
             ResultSet rs = ps.executeQuery();
                 if (rs.next() && rs.getInt(1) > 0) {
                     ocupado = true;
                 }
+                ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al validar horario: " + ex.getMessage());
         }
