@@ -213,4 +213,32 @@ public class ClaseGymData {
         }
         return ocupado;
     }
+    
+    public List<ClaseGym> listarClasesGym(){
+        ArrayList<ClaseGym> lista = new ArrayList<>();
+        String sql = "SELECT * FROM clasegym WHERE estado = 1";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()){
+                ClaseGym c= new ClaseGym();
+                c.setIdClase(rs.getInt("idClase"));
+                c.setDisciplina(rs.getString("disciplina"));
+                c.setHorario(rs.getTime("horario").toLocalTime());
+                c.setCapacidad(rs.getInt("capacidad"));
+                c.setEstado(rs.getBoolean("estado"));
+                
+                int idEntrenador = rs.getInt("idEntrenador");
+                Entrenador e = entrenadorData.buscarEntrenador(idEntrenador);
+                c.setEntrenador(e);
+                lista.add(c);
+            }
+            ps.close();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al lsitar las clases: " + ex.getMessage());
+        }
+        return lista;
+    }
 }

@@ -75,6 +75,7 @@ public class ventana extends javax.swing.JFrame {
         jMenu1.add(jMenuPases);
 
         jMenuAsistencia.setText("Asistencia");
+        jMenuAsistencia.addActionListener(this::jMenuAsistenciaActionPerformed);
         jMenu1.add(jMenuAsistencia);
 
         jMenuBar1.add(jMenu1);
@@ -154,13 +155,22 @@ public class ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
     private void jMenuClases1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClases1ActionPerformed
-         contenedor.removeAll();
+        contenedor.removeAll();
         contenedor.repaint();
         VistaClases clases = new VistaClases();
         contenedor.add(clases);
         clases.setVisible(true);
         contenedor.moveToFront(clases);
     }//GEN-LAST:event_jMenuClases1ActionPerformed
+
+    private void jMenuAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAsistenciaActionPerformed
+        contenedor.removeAll();
+        contenedor.repaint();
+        VistaAsistencia asistencia = new VistaAsistencia();
+        contenedor.add(asistencia);
+        asistencia.setVisible(true);
+        contenedor.moveToFront(asistencia);        
+    }//GEN-LAST:event_jMenuAsistenciaActionPerformed
 
     /**
      * @param args the command line arguments
