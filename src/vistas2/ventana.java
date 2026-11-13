@@ -32,6 +32,7 @@ public class ventana extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         contenedor = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuSocios = new javax.swing.JMenuItem();
@@ -40,7 +41,10 @@ public class ventana extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuEntrenadores = new javax.swing.JMenuItem();
         jMenuClases1 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuInformes = new javax.swing.JMenuItem();
+        jMenuInformes1 = new javax.swing.JMenuItem();
+        jMenuInformes2 = new javax.swing.JMenuItem();
         jMenuSalir = new javax.swing.JMenu();
 
         jMenu3.setText("File");
@@ -53,15 +57,22 @@ public class ventana extends javax.swing.JFrame {
 
         contenedor.setPreferredSize(new java.awt.Dimension(1024, 600));
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
+
+        contenedor.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout contenedorLayout = new javax.swing.GroupLayout(contenedor);
         contenedor.setLayout(contenedorLayout);
         contenedorLayout.setHorizontalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1024, Short.MAX_VALUE)
+            .addGroup(contenedorLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(jLabel1)
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         contenedorLayout.setVerticalGroup(
             contenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         jMenu1.setText("Socios");
@@ -90,10 +101,23 @@ public class ventana extends javax.swing.JFrame {
         jMenuClases1.addActionListener(this::jMenuClases1ActionPerformed);
         jMenu2.add(jMenuClases1);
 
-        jMenuItem6.setText("Buscar...Listas....");
-        jMenu2.add(jMenuItem6);
-
         jMenuBar1.add(jMenu2);
+
+        jMenu5.setText("Informes");
+
+        jMenuInformes.setText("Clases disponibles");
+        jMenuInformes.addActionListener(this::jMenuInformesActionPerformed);
+        jMenu5.add(jMenuInformes);
+
+        jMenuInformes1.setText("Historial Clases por socio");
+        jMenuInformes1.addActionListener(this::jMenuInformes1ActionPerformed);
+        jMenu5.add(jMenuInformes1);
+
+        jMenuInformes2.setText("Concurrencia");
+        jMenuInformes2.addActionListener(this::jMenuInformes2ActionPerformed);
+        jMenu5.add(jMenuInformes2);
+
+        jMenuBar1.add(jMenu5);
 
         jMenuSalir.setText("Salir");
         jMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,14 +134,14 @@ public class ventana extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(contenedor, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
@@ -126,6 +150,7 @@ public class ventana extends javax.swing.JFrame {
     private void jMenuSociosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuSociosActionPerformed
         contenedor.removeAll();
         contenedor.repaint();
+        contenedor.add(jLabel1);
         FormuSocios socio = new FormuSocios();
         contenedor.add(socio);
         socio.setVisible(true);
@@ -135,42 +160,76 @@ public class ventana extends javax.swing.JFrame {
     private void jMenuPasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuPasesActionPerformed
         contenedor.removeAll();
         contenedor.repaint();
+        contenedor.add(jLabel1);
         VistaPases pases = new VistaPases();
         contenedor.add(pases);
         pases.setVisible(true);
         contenedor.moveToFront(pases);
     }//GEN-LAST:event_jMenuPasesActionPerformed
 
-    private void jMenuEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEntrenadoresActionPerformed
-        contenedor.removeAll();
-        contenedor.repaint();
-        VistaEntrenadores entrenadores = new VistaEntrenadores();
-        contenedor.add(entrenadores);
-        entrenadores.setVisible(true);
-        contenedor.moveToFront(entrenadores);
-    }//GEN-LAST:event_jMenuEntrenadoresActionPerformed
-
     private void jMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuSalirMouseClicked
         System.exit(0);
     }//GEN-LAST:event_jMenuSalirMouseClicked
 
+    private void jMenuAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAsistenciaActionPerformed
+        contenedor.removeAll();
+        contenedor.repaint();
+        contenedor.add(jLabel1);
+        VistaAsistencia asistencia = new VistaAsistencia();
+        contenedor.add(asistencia);
+        asistencia.setVisible(true);
+        contenedor.moveToFront(asistencia);        
+    }//GEN-LAST:event_jMenuAsistenciaActionPerformed
+
+    private void jMenuInformesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformesActionPerformed
+        contenedor.removeAll();
+        contenedor.repaint();
+        contenedor.add(jLabel1);
+        VistaInformes informes = new VistaInformes();
+        contenedor.add(informes);
+        informes.setVisible(true);
+        contenedor.moveToFront(informes);
+    }//GEN-LAST:event_jMenuInformesActionPerformed
+
     private void jMenuClases1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuClases1ActionPerformed
         contenedor.removeAll();
         contenedor.repaint();
+        contenedor.add(jLabel1);
         VistaClases clases = new VistaClases();
         contenedor.add(clases);
         clases.setVisible(true);
         contenedor.moveToFront(clases);
     }//GEN-LAST:event_jMenuClases1ActionPerformed
 
-    private void jMenuAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAsistenciaActionPerformed
+    private void jMenuEntrenadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuEntrenadoresActionPerformed
         contenedor.removeAll();
         contenedor.repaint();
-        VistaAsistencia asistencia = new VistaAsistencia();
-        contenedor.add(asistencia);
-        asistencia.setVisible(true);
-        contenedor.moveToFront(asistencia);        
-    }//GEN-LAST:event_jMenuAsistenciaActionPerformed
+        contenedor.add(jLabel1);
+        VistaEntrenadores entrenadores = new VistaEntrenadores();
+        contenedor.add(entrenadores);
+        entrenadores.setVisible(true);
+        contenedor.moveToFront(entrenadores);
+    }//GEN-LAST:event_jMenuEntrenadoresActionPerformed
+
+    private void jMenuInformes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformes1ActionPerformed
+        contenedor.removeAll();
+        contenedor.repaint();
+        contenedor.add(jLabel1);
+        VistaHistorialSocio historial = new VistaHistorialSocio();
+        contenedor.add(historial);
+        historial.setVisible(true);
+        contenedor.moveToFront(historial);
+    }//GEN-LAST:event_jMenuInformes1ActionPerformed
+
+    private void jMenuInformes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuInformes2ActionPerformed
+        contenedor.removeAll();
+        contenedor.repaint();
+        contenedor.add(jLabel1);
+        VistaInformeAsistencias concurrencia = new VistaInformeAsistencias();
+        contenedor.add(concurrencia);
+        concurrencia.setVisible(true);
+        contenedor.moveToFront(concurrencia);
+    }//GEN-LAST:event_jMenuInformes2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -199,16 +258,20 @@ public class ventana extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane contenedor;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuItem jMenuAsistencia;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuClases1;
     private javax.swing.JMenuItem jMenuEntrenadores;
-    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuInformes;
+    private javax.swing.JMenuItem jMenuInformes1;
+    private javax.swing.JMenuItem jMenuInformes2;
     private javax.swing.JMenuItem jMenuPases;
     private javax.swing.JMenu jMenuSalir;
     private javax.swing.JMenuItem jMenuSocios;

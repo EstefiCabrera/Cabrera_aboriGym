@@ -90,5 +90,27 @@ public class ClaseGym {
     public String toString() {
         return "ID: " + idClase + " - " + disciplina + " - " + entrenador.getApellido()+", "+ entrenador.getNombre() + ", horario=" + horario;
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 53 * hash + this.idClase;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ClaseGym other = (ClaseGym) obj;
+        return this.idClase == other.idClase;
+    }
 }
 

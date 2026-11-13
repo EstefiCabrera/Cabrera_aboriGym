@@ -5,9 +5,11 @@
 
 package vistas2;
 
+import java.awt.Color;
 import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import modelo.ClaseGym;
 import modelo.Socio;
 import modelo.Asistencia;
@@ -36,6 +38,9 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
         cargarComboSocios();
         cargarComboClases();
         limpiarCampos();
+        jcbSocios.setSelectedItem(null);
+        jcbClases.setSelectedItem(null);
+        dibujarCupos();
         
     }
     
@@ -64,21 +69,28 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField4 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtIdAsis = new javax.swing.JTextField();
         jcbSocios = new javax.swing.JComboBox<>();
         jcbClases = new javax.swing.JComboBox<>();
         jFechaAsis = new com.toedter.calendar.JDateChooser();
         btnLimpiar = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        panelCupos = new javax.swing.JPanel();
+        btnEliminar = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jTextField4.setText("jTextField4");
+
+        jButton2.setText("jButton2");
 
         setClosable(true);
         setIconifiable(true);
@@ -97,58 +109,99 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Fecha Asistencia:");
 
-        jTextField5.setColumns(5);
-        jTextField5.setEnabled(false);
+        txtIdAsis.setColumns(5);
+        txtIdAsis.setEnabled(false);
 
-        btnLimpiar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        btnLimpiar.setText("Limpiar");
+        jcbClases.addActionListener(this::jcbClasesActionPerformed);
+
+        jFechaAsis.addPropertyChangeListener(this::jFechaAsisPropertyChange);
+
+        btnLimpiar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnLimpiar.setText("Nuevo");
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
-        btnRegistrar.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        btnRegistrar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnRegistrar.setText("Registrar Asistencia");
         btnRegistrar.addActionListener(this::btnRegistrarActionPerformed);
+
+        btnBuscar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(this::btnBuscarActionPerformed);
+
+        btnModificar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(this::btnModificarActionPerformed);
+
+        javax.swing.GroupLayout panelCuposLayout = new javax.swing.GroupLayout(panelCupos);
+        panelCupos.setLayout(panelCuposLayout);
+        panelCuposLayout.setHorizontalGroup(
+            panelCuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 172, Short.MAX_VALUE)
+        );
+        panelCuposLayout.setVerticalGroup(
+            panelCuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 81, Short.MAX_VALUE)
+        );
+
+        btnEliminar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(btnRegistrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLimpiar)
-                .addGap(78, 78, 78))
-            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(btnLimpiar)
+                        .addComponent(jLabel5)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFechaAsis, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jcbClases, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtIdAsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(btnBuscar))
                             .addComponent(jcbSocios, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jcbClases, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(jLabel1))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(jLabel1)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRegistrar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jFechaAsis, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelCupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addGap(44, 44, 44)
+                                .addComponent(btnEliminar)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(txtIdAsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscar))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jcbSocios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -159,12 +212,15 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jFechaAsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(jFechaAsis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelCupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnModificar)
                     .addComponent(btnRegistrar)
-                    .addComponent(btnLimpiar))
-                .addContainerGap(19, Short.MAX_VALUE))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnEliminar))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -192,6 +248,7 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
             
             asistenciaData.registrarAsistencia(nuevaAsist);
             limpiarCampos();
+            dibujarCupos();
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, "Error al procesar los datos: "+e.getMessage());
         }
@@ -199,12 +256,127 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarCampos();
+        btnBuscar.setText("Buscar");
     }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(txtIdAsis.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Debe buscar una asistencia para poder eliminarla");
+            return;
+        }
+        int confirmar = JOptionPane.showConfirmDialog(this, "¿Está seguro eliminar la asistencia? Se devolverá la entrada", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+        
+        if(confirmar == JOptionPane.YES_OPTION){
+            try{
+                int idAsistencia = Integer.parseInt(txtIdAsis.getText().trim());
+                Socio socSelecc = (Socio)jcbSocios.getSelectedItem();               
+                asistenciaData.eliminarAsistencia(idAsistencia, socSelecc.getIdSocio());
+                
+                limpiarCampos();
+                dibujarCupos();
+                txtIdAsis.setText("");
+                btnRegistrar.setEnabled(true);
+                btnModificar.setEnabled(false);
+                btnEliminar.setEnabled(false);
+         }catch (Exception e){
+             JOptionPane.showMessageDialog(this, "Error al procesar la eliminación: "+ e.getMessage());
+         }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        if(txtIdAsis.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Debe buscar una asistencia para poder modificar");
+            return;    
+        }
+        if(jcbSocios.getSelectedItem()==null || jcbClases.getSelectedItem()==null ||jFechaAsis.getDate() ==null){
+            JOptionPane.showMessageDialog(this, "Complete todos los campos para poder modificar");
+            return;  
+        }
+        try{
+            Asistencia am = new Asistencia();
+            am.setIdAsistencia(Integer.parseInt(txtIdAsis.getText().trim()));
+            am.setSocio((Socio) jcbSocios.getSelectedItem());
+            am.setClase((ClaseGym) jcbClases.getSelectedItem());
+            LocalDate fechaLocal= jFechaAsis.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            am.setFechaAsistencia(fechaLocal);
+            asistenciaData.modificarAsistencia(am);
+            
+            limpiarCampos();
+            txtIdAsis.setText("");
+            btnRegistrar.setEnabled(true);
+            btnModificar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+        }catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al procesar la modificación: "+e.getMessage());
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(!txtIdAsis.isEnabled()){
+            txtIdAsis.setEnabled(true);
+            txtIdAsis.setEditable(true);
+            txtIdAsis.setText("");
+            txtIdAsis.requestFocus();
+            
+            jcbSocios.setEnabled(false);
+            jcbClases.setEnabled(false);
+            jFechaAsis.setEnabled(false);
+            btnRegistrar.setEnabled(false);
+            btnModificar.setEnabled(false);
+            btnEliminar.setEnabled(false);
+            btnBuscar.setText("Confirmar");
+            return;
+        }
+        if(txtIdAsis.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Ingrese un ID de asistencia");
+            return;       
+        }
+        try{
+            int id = Integer.parseInt(txtIdAsis.getText().trim());
+            Asistencia a = asistenciaData.buscarAsistencia(id);
+            
+            if(a != null){
+                
+                jcbSocios.setEnabled(true);
+                jcbClases.setEnabled(true);
+                jFechaAsis.setEnabled(true);
+                
+                jcbSocios.setSelectedItem(a.getSocio());
+                jcbClases.setSelectedItem(a.getClase());
+                jFechaAsis.setDate(java.sql.Date.valueOf(a.getFechaAsistencia()));
+                
+                btnRegistrar.setEnabled(false);
+                btnModificar.setEnabled(true);
+                btnEliminar.setEnabled(true);
+            }else{
+                limpiarCampos();
+            }
+            txtIdAsis.setEnabled(false);
+            btnBuscar.setText("Buscar");
+        }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero");
+            txtIdAsis.setText("");
+            txtIdAsis.requestFocus();
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void jcbClasesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbClasesActionPerformed
+        dibujarCupos();
+    }//GEN-LAST:event_jcbClasesActionPerformed
+
+    private void jFechaAsisPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jFechaAsisPropertyChange
+        dibujarCupos();
+    }//GEN-LAST:event_jFechaAsisPropertyChange
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegistrar;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private com.toedter.calendar.JDateChooser jFechaAsis;
     private javax.swing.JLabel jLabel1;
@@ -213,18 +385,56 @@ public class VistaAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JComboBox<ClaseGym> jcbClases;
     private javax.swing.JComboBox<Socio> jcbSocios;
+    private javax.swing.JPanel panelCupos;
+    private javax.swing.JTextField txtIdAsis;
     // End of variables declaration//GEN-END:variables
     
     private void limpiarCampos(){
+        txtIdAsis.setText("");
+        txtIdAsis.setEnabled(false);
+        
+        jcbSocios.setSelectedIndex(-1);
+        jcbClases.setSelectedItem(-1);
+        
         if(jcbSocios.getItemCount()>0){
             jcbSocios.setSelectedIndex(0);
         }
         if(jcbClases.getItemCount()>0){
             jcbClases.setSelectedIndex(0);
         }
+        jFechaAsis.setDate(new Date());
         jFechaAsis.getJCalendar().setMinSelectableDate(new Date());
+        btnRegistrar.setEnabled(true);
+        btnModificar.setEnabled(false);
+        btnEliminar.setEnabled(false);      
+    }
+    
+    private void dibujarCupos(){
+        if(jcbClases.getSelectedItem()== null|| jFechaAsis.getDate()==null){
+            return;
+        }
+        ClaseGym clase = (ClaseGym) jcbClases.getSelectedItem();
+        LocalDate fecha = jFechaAsis.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        
+        int capacidadMax = clase.getCapacidad();
+        int ocupados = asistenciaData.contarInscriptos(clase.getIdClase(), fecha);
+        
+        //configuracion de grilla de 5 columnas
+        panelCupos.removeAll();
+        panelCupos.setLayout(new java.awt.GridLayout(0, 5, 5, 5));
+        for (int i = 1; i <= capacidadMax; i++) { //dibijamos 1 cuadrito en cada lugar de la capacidad max
+            JPanel cuadrito = new JPanel();
+            
+            if(i <= ocupados){
+                cuadrito.setBackground(Color.RED);
+            }else{
+                cuadrito.setBackground(Color.GREEN);
+            }
+            panelCupos.add(cuadrito);
+        }
+        panelCupos.revalidate();
+        panelCupos.repaint();
     }
 }

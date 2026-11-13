@@ -55,7 +55,11 @@ public class PaseData {
             }
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al guardar Pase: "+ex.getMessage()); 
+            if(ex.getMessage().contains("Duplicate entry")){
+                JOptionPane.showMessageDialog(null, "Este socio ya tiene un pase registrado. Por favor, buscar y modificar para renovarlo"); 
+            }else{
+                JOptionPane.showMessageDialog(null, "Error al guardar pase: "+ex.getMessage()); 
+            }
         }
     }
         

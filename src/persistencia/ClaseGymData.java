@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import modelo.Entrenador;
 
 /**
@@ -240,5 +241,81 @@ public class ClaseGymData {
             JOptionPane.showMessageDialog(null, "Error al lsitar las clases: " + ex.getMessage());
         }
         return lista;
+    }
+    
+    public void listarClaseConEntrenador (DefaultTableModel modeloTabla){
+        modeloTabla.setRowCount(0);
+        
+        String sql = "SELECT c.idClase, c.disciplina, c.capacidad, e.apellido, e.nombre "
+                + "FROM clasegym c "
+                + "JOIN entrenador e ON (c.idEntrenador = e.idEntrenador) "
+                + "WHERE c.estado =1";
+        
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                String nombreEntrenador = rs.getString("apellido")+", "+rs.getString("nombre");
+                
+                modeloTabla.addRow(new Object[]{rs.getInt("idClase"), rs.getString("disciplina"), nombreEntrenador, rs.getInt("capacidad")});
+            }
+            ps.close();
+        }catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error al recuperar listado de clases: "+ ex.getMessage());
+        }
+    }
+    
+    public void listarClasesFechaActual (DefaultTableModel modeloTabla){
+        modeloTabla.setRowCount(0);
+        
+        String sql = "SELECT c.disciplina, c.horario, c.capacidad, e.apellido "
+                     + "FROM clasegym c "
+                     + "JOIN entrenador e ON c.idEntrenador= e.idEntrenador "
+                     + "WHERE c.estado=1 "
+                     + "ORDER BY c.horario ASC ";
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                int capacidad = rs.getInt("capacidad");
+                String horario = rs.getTime("horario").toString().substring(0, 5);
+                String estadoCupo;
+                    if(capacidad >0) {
+                        estadoCupo = "Hay cupos";
+                    }else{
+                        estadoCupo = "Clase llena";
+                    }
+                modeloTabla.addRow(new Object[]{horario + " hs", rs.getString("disciplina"), rs.getString("apellido"),estadoCupo});
+            }
+            ps.close();
+        }catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error en litar por fecha: "+ex.getMessage());
+        }
+    }
+    
+    public void listarClasesPorEntrenador (DefaultTableModel modeloTabla){
+        modeloTabla.setRowCount(0);
+        
+        String sql = "SELECT e.apellido, e.nombre, c.disciplina, c.horario "
+                     + "FROM entrenador e "
+                     + "JOIN clasegym c ON e.idEntrenador= c.idEntrenador "
+                     + "WHERE c.estado=1 "
+                     + "ORDER BY e.apellido ASC ";
+        try{
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()){
+                String nombreCompleto = rs.getString("apellido")+ ", "+rs.getString("nombre");          
+                String horario = rs.getTime("horario").toString().substring(0, 5);
+  
+                modeloTabla.addRow(new Object[]{nombreCompleto, rs.getString("disciplina"), horario, " hs"});
+            }
+            ps.close();
+        }catch (SQLException ex){
+            JOptionPane.showMessageDialog(null, "Error en litar por entrenador: "+ex.getMessage());
+        }
     }
 }
