@@ -111,26 +111,27 @@ import modelo.miConexion;
         }     
       }
 
-    public void informeConcurrencia(DefaultTableModel modeloTabla, int idClase, LocalDate fecha, JLabel lblTotal){
+    public void informeConcurrencia(DefaultTableModel modeloTabla, int idClase, LocalDate fechaDesde, LocalDate fechaHasta, JLabel lblTotal){
         modeloTabla.setRowCount(0);
 
-        String sql = "SELECT s.idSocio, s.dni, s.apellido, s.nombre "
+        String sql = "SELECT s.idSocio, s.dni, s.apellido, s.nombre, a.fechaAsistencia "
                    + "FROM asistencia a "
                    + "JOIN socio s ON a.idSocio = s.idSocio "
-                   + "WHERE a.idClase =? AND a.fechaAsistencia =? "
-                   + "ORDER BY s.apellido ASC ";
+                   + "WHERE a.idClase =? AND a.fechaAsistencia BETWEEN ? AND ? "
+                   + "ORDER BY a.fechaAsistencia ASC, s.apellido ASC ";
         int contadorAlumno =0;
 
         try{
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idClase);
-            ps.setDate(2, Date.valueOf(fecha));
+            ps.setDate(2, Date.valueOf(fechaDesde));
+            ps.setDate(3, Date.valueOf(fechaHasta));
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
                 contadorAlumno++;
 
-                modeloTabla.addRow(new Object[]{rs.getInt("idSocio"), rs.getString("dni"), rs.getString("apellido"), rs.getString("nombre")});
+                modeloTabla.addRow(new Object[]{rs.getInt("idSocio"), rs.getString("dni"), rs.getString("apellido"), rs.getString("nombre"), rs.getDate("fechaAsistencia").toString()});
             }
             ps.close();
             lblTotal.setText("Concurrencia total: "+contadorAlumno + " alumnos.");

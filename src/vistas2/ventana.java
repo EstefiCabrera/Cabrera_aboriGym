@@ -4,6 +4,8 @@
  */
 package vistas2;
 
+import java.awt.Color;
+
 /**
  *
  * @author estef
@@ -17,6 +19,8 @@ public class ventana extends javax.swing.JFrame {
      */
     public ventana() {
         initComponents();
+        this.getContentPane().setBackground(new Color(204,204,255));
+        contenedor.setBackground(new Color(204,204,255));
     }
 
     /**
